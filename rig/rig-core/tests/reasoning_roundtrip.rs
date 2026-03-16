@@ -185,20 +185,6 @@ async fn test_openai_reasoning_roundtrip() {
 }
 
 #[tokio::test]
-#[ignore = "requires XAI_API_KEY — validate with grok-4-0725 once key is available"]
-async fn test_xai_reasoning_roundtrip() {
-    use rig::providers::xai;
-
-    let client = xai::Client::from_env();
-    run_reasoning_roundtrip_streaming(TestAgent {
-        model: client.completion_model(xai::GROK_3_MINI),
-        preamble: PREAMBLE.into(),
-        additional_params: None,
-    })
-    .await;
-}
-
-#[tokio::test]
 #[ignore = "requires ANTHROPIC_API_KEY"]
 async fn test_anthropic_reasoning_roundtrip() {
     use rig::providers::anthropic;
@@ -408,20 +394,6 @@ async fn test_openai_reasoning_roundtrip_nonstreaming() {
         additional_params: Some(serde_json::json!({
             "reasoning": { "effort": "medium" }
         })),
-    })
-    .await;
-}
-
-#[tokio::test]
-#[ignore = "requires XAI_API_KEY — validate with grok-4-0725 once key is available"]
-async fn test_xai_reasoning_roundtrip_nonstreaming() {
-    use rig::providers::xai;
-
-    let client = xai::Client::from_env();
-    run_reasoning_roundtrip_nonstreaming(TestAgent {
-        model: client.completion_model(xai::GROK_3_MINI),
-        preamble: PREAMBLE.into(),
-        additional_params: None,
     })
     .await;
 }

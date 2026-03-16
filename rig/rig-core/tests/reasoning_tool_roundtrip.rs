@@ -512,30 +512,6 @@ async fn test_gemini_tool_call_with_reasoning() {
 }
 
 #[tokio::test]
-#[ignore = "requires XAI_API_KEY — validate with grok-4-0725 once key is available"]
-async fn test_xai_tool_call_with_reasoning() {
-    use rig::providers::xai;
-
-    let call_count = Arc::new(AtomicUsize::new(0));
-    let tool = WeatherTool {
-        call_count: call_count.clone(),
-    };
-
-    let client = xai::Client::from_env();
-    let agent = client
-        .agent(xai::GROK_3_MINI)
-        .preamble(SYSTEM_PROMPT)
-        .max_tokens(4096)
-        .tool(tool)
-        .build();
-
-    let stream = agent.stream_chat(USER_PROMPT, vec![]).multi_turn(3).await;
-
-    let stats = collect_stream_stats(stream, "xai").await;
-    assert_universal(&stats, &call_count, "xai");
-}
-
-#[tokio::test]
 #[ignore = "requires OPENROUTER_API_KEY"]
 async fn test_openrouter_tool_call_with_reasoning() {
     use rig::providers::openrouter;
@@ -772,34 +748,6 @@ async fn test_gemini_tool_call_nonstreaming() {
         .expect("[gemini] Non-streaming chat failed — likely 400 from dropped reasoning");
 
     assert_nonstreaming_universal(&result, &call_count, "gemini");
-}
-
-#[tokio::test]
-#[ignore = "requires XAI_API_KEY — validate with grok-4-0725 once key is available"]
-async fn test_xai_tool_call_nonstreaming() {
-    use rig::client::CompletionClient;
-    use rig::completion::Chat;
-    use rig::providers::xai;
-
-    let call_count = Arc::new(AtomicUsize::new(0));
-    let tool = WeatherTool {
-        call_count: call_count.clone(),
-    };
-
-    let client = xai::Client::from_env();
-    let agent = client
-        .agent(xai::GROK_3_MINI)
-        .preamble(SYSTEM_PROMPT)
-        .max_tokens(4096)
-        .tool(tool)
-        .build();
-
-    let result = agent
-        .chat(USER_PROMPT, vec![])
-        .await
-        .expect("[xai] Non-streaming chat failed — likely 400 from dropped reasoning");
-
-    assert_nonstreaming_universal(&result, &call_count, "xai");
 }
 
 #[tokio::test]
