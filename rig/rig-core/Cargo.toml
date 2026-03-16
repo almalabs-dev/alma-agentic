@@ -4,8 +4,8 @@ version = "0.32.0"
 edition = { workspace = true }
 license = "MIT"
 readme = "README.md"
-description = "An opinionated library for building LLM powered applications."
-repository = "https://github.com/0xPlaygrounds/rig"
+description = "Core library for alma-agentic — multi-provider LLM orchestration."
+repository = "https://github.com/almalabs-dev/alma-agentic"
 
 [package.metadata.docs.rs]
 all-features = true

@@ -3,8 +3,8 @@ name = "rig-derive"
 version = "0.1.11"
 edition = { workspace = true }
 license = "MIT"
-description = "Internal crate that implements Rig derive macros."
-repository = "https://github.com/0xPlaygrounds/rig"
+description = "Internal derive macros for alma-agentic."
+repository = "https://github.com/almalabs-dev/alma-agentic"
 
 [lints]
 workspace = true

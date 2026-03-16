@@ -1,4 +1,5 @@
-# Rig-Qdrant
-Vector store index integration for [Qdrant](https://qdrant.tech/). This integration supports dense vector retrieval using Rig's embedding providers. It is also extensible to allow all [hybrid queries](https://qdrant.tech/documentation/concepts/hybrid-queries/) supported by Qdrant.
+# rig-qdrant
 
-You can find end-to-end examples [here](https://github.com/0xPlaygrounds/rig/tree/main/rig-qdrant/examples).
+Qdrant vector store integration for alma-agentic. Supports dense vector retrieval using the embedding providers from rig-core.
+
+See [Qdrant documentation](https://qdrant.tech/) for more information about the vector database.

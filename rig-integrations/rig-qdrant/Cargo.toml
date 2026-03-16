@@ -4,8 +4,8 @@ version = "0.2.1"
 edition = { workspace = true }
 license = "MIT"
 readme = "README.md"
-description = "Rig vector store index integration for Qdrant. https://qdrant.tech"
-repository = "https://github.com/0xPlaygrounds/rig"
+description = "Qdrant vector store integration for alma-agentic. https://qdrant.tech"
+repository = "https://github.com/almalabs-dev/alma-agentic"
 
 [lints]
 workspace = true
