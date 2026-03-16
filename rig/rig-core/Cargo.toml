@@ -152,15 +152,8 @@ name = "vector_search"
 required-features = ["derive"]
 
 [[example]]
-name = "vector_search_cohere"
-required-features = ["derive"]
-
-[[example]]
 name = "gemini_embeddings"
 required-features = ["derive"]
-
-[[example]]
-name = "agent_with_moonshot"
 
 [[example]]
 name = "pdf_agent"
@@ -179,18 +172,6 @@ name = "openai_audio_generation"
 required-features = ["audio"]
 
 [[example]]
-name = "hyperbolic_audio_generation"
-required-features = ["audio"]
-
-[[example]]
-name = "mistral_embeddings"
-required-features = ["derive"]
-
-[[example]]
-name = "voyageai_embeddings"
-required-features = ["derive"]
-
-[[example]]
 name = "rmcp"
 required-features = ["rmcp"]
 
@@ -207,7 +188,3 @@ name = "custom_vector_store"
 [[example]]
 name = "gemini_extractor_with_rag"
 required-features = ["derive"]
-
-[[example]]
-name = "xai_image_generation"
-required-features = ["image"]

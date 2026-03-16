@@ -23,10 +23,7 @@ use crate::{
     completion::{CompletionError, CompletionModelDyn, CompletionRequest},
     embeddings::EmbeddingModelDyn,
     message::Message,
-    providers::{
-        anthropic, azure, cohere, deepseek, galadriel, gemini, groq, huggingface, hyperbolic, mira,
-        mistral, moonshot, ollama, openai, openrouter, perplexity, together, xai,
-    },
+    providers::{anthropic, azure, gemini, groq, ollama, openai, openrouter, together},
     streaming::StreamingCompletionResponse,
     transcription::TranscriptionModelDyn,
     wasm_compat::{WasmCompatSend, WasmCompatSync},
@@ -169,23 +166,13 @@ impl Default for DynClientBuilder {
 #[derive(Debug, Clone, Copy)]
 pub enum DefaultProviders {
     Anthropic,
-    Cohere,
+    Azure,
     Gemini,
-    HuggingFace,
+    Groq,
+    Ollama,
     OpenAI,
     OpenRouter,
     Together,
-    XAI,
-    Azure,
-    DeepSeek,
-    Galadriel,
-    Groq,
-    Hyperbolic,
-    Moonshot,
-    Mira,
-    Mistral,
-    Ollama,
-    Perplexity,
 }
 
 impl From<DefaultProviders> for &'static str {
@@ -194,23 +181,13 @@ impl From<DefaultProviders> for &'static str {
 
         match value {
             Anthropic => "anthropic",
-            Cohere => "cohere",
+            Azure => "azure",
             Gemini => "gemini",
-            HuggingFace => "huggingface",
+            Groq => "groq",
+            Ollama => "ollama",
             OpenAI => "openai",
             OpenRouter => "openrouter",
             Together => "together",
-            XAI => "xai",
-            Azure => "azure",
-            DeepSeek => "deepseek",
-            Galadriel => "galadriel",
-            Groq => "groq",
-            Hyperbolic => "hyperbolic",
-            Moonshot => "moonshot",
-            Mira => "mira",
-            Mistral => "mistral",
-            Ollama => "ollama",
-            Perplexity => "perplexity",
         }
     }
 }
@@ -229,23 +206,13 @@ impl DefaultProviders {
 
         [
             Anthropic,
-            Cohere,
+            Azure,
             Gemini,
-            HuggingFace,
+            Groq,
+            Ollama,
             OpenAI,
             OpenRouter,
             Together,
-            XAI,
-            Azure,
-            DeepSeek,
-            Galadriel,
-            Groq,
-            Hyperbolic,
-            Moonshot,
-            Mira,
-            Mistral,
-            Ollama,
-            Perplexity,
         ]
         .into_iter()
     }
@@ -256,23 +223,13 @@ impl DefaultProviders {
 
         match self {
             Anthropic => || Ok(AnyClient::new(anthropic::Client::from_env())),
-            Cohere => || Ok(AnyClient::new(cohere::Client::from_env())),
+            Azure => || Ok(AnyClient::new(azure::Client::from_env())),
             Gemini => || Ok(AnyClient::new(gemini::Client::from_env())),
-            HuggingFace => || Ok(AnyClient::new(huggingface::Client::from_env())),
+            Groq => || Ok(AnyClient::new(groq::Client::from_env())),
+            Ollama => || Ok(AnyClient::new(ollama::Client::from_env())),
             OpenAI => || Ok(AnyClient::new(openai::Client::from_env())),
             OpenRouter => || Ok(AnyClient::new(openrouter::Client::from_env())),
             Together => || Ok(AnyClient::new(together::Client::from_env())),
-            XAI => || Ok(AnyClient::new(xai::Client::from_env())),
-            Azure => || Ok(AnyClient::new(azure::Client::from_env())),
-            DeepSeek => || Ok(AnyClient::new(deepseek::Client::from_env())),
-            Galadriel => || Ok(AnyClient::new(galadriel::Client::from_env())),
-            Groq => || Ok(AnyClient::new(groq::Client::from_env())),
-            Hyperbolic => || Ok(AnyClient::new(hyperbolic::Client::from_env())),
-            Moonshot => || Ok(AnyClient::new(moonshot::Client::from_env())),
-            Mira => || Ok(AnyClient::new(mira::Client::from_env())),
-            Mistral => || Ok(AnyClient::new(mistral::Client::from_env())),
-            Ollama => || Ok(AnyClient::new(ollama::Client::from_env())),
-            Perplexity => || Ok(AnyClient::new(perplexity::Client::from_env())),
         }
     }
 }
