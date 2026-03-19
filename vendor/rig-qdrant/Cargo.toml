@@ -11,7 +11,7 @@ repository = "https://github.com/almalabs-dev/alma-agentic"
 workspace = true
 
 [dependencies]
-rig-core = { path = "../../rig/rig-core", version = "0.32.0", default-features = false }
+rig-core = { path = "../rig-core", version = "0.32.0", default-features = false }
 serde_json = { workspace = true }
 serde = { workspace = true }
 qdrant-client = { workspace = true }

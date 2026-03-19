@@ -1,9 +1,12 @@
 [workspace]
 resolver = "3"
 members = [
-    "rig/rig-core",
-    "rig/rig-derive",
-    "rig-integrations/rig-qdrant",
+    # Vendor — infraestructura heredada de Rig (fork congelado)
+    "vendor/rig-core",
+    "vendor/rig-derive",
+    "vendor/rig-qdrant",
+    # Crates — código propio Alma Labs
+    "crates/alma-executor",
 ]
 
 [workspace.lints.clippy]
