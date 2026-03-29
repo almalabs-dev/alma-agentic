@@ -7,6 +7,7 @@ members = [
     "vendor/rig-qdrant",
     # Crates — código propio Alma Labs
     "crates/alma-executor",
+    "crates/alma-memory",
 ]
 
 [workspace.lints.clippy]
