@@ -9,7 +9,7 @@ use async_stream::stream;
 use futures::{Stream, StreamExt};
 use rig::{
     agent::MultiTurnStreamItem,
-    client::{CompletionClient, ProviderClient},
+    client::CompletionClient,
     completion::{Chat, Message, Prompt},
     providers::openrouter,
     streaming::{StreamedAssistantContent, StreamingPrompt},
@@ -27,13 +27,20 @@ pub struct OpenRouterAdapter {
 }
 
 impl OpenRouterAdapter {
-    pub fn from_config(cfg: &Config) -> Self {
-        let client = openrouter::Client::from_env();
+    /// Build an adapter from the given config.
+    ///
+    /// Returns an error if `OPENROUTER_API_KEY` is not set in the environment
+    /// or if the underlying HTTP client cannot be initialised.
+    pub fn from_config(cfg: &Config) -> Result<Self, AgentError> {
+        let api_key = std::env::var("OPENROUTER_API_KEY")
+            .map_err(|_| AgentError::new("OPENROUTER_API_KEY environment variable is not set"))?;
+        let client = openrouter::Client::new(&api_key)
+            .map_err(|e| AgentError::new(format!("failed to build OpenRouter client: {e}")))?;
         let agent = client
             .agent(&cfg.default_model)
             .preamble(&cfg.preamble)
             .build();
-        Self { agent }
+        Ok(Self { agent })
     }
 
     pub async fn prompt(&self, message: &str) -> Result<String, AgentError> {
