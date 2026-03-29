@@ -11,6 +11,7 @@ name = "alma-executor"
 path = "src/main.rs"
 
 [dependencies]
+alma-memory = { path = "../alma-memory" }
 rig-core = { path = "../../vendor/rig-core" }
 axum = { version = "0.8", features = ["macros"] }
 tokio = { workspace = true, features = ["full"] }

@@ -1,12 +1,12 @@
 use std::env;
 
 #[derive(Clone, Debug)]
-#[allow(dead_code)] // qdrant_url used in Phase 2b
 pub struct Config {
     pub port: u16,
     pub default_model: String,
     pub preamble: String,
     pub qdrant_url: String,
+    pub memory_collection: String,
 }
 
 impl Config {
@@ -23,6 +23,8 @@ impl Config {
             }),
             qdrant_url: env::var("QDRANT_URL")
                 .unwrap_or_else(|_| "http://localhost:6334".to_string()),
+            memory_collection: env::var("ALMA_MEMORY_COLLECTION")
+                .unwrap_or_else(|_| "alma".to_string()),
         }
     }
 }

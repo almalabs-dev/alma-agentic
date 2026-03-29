@@ -32,6 +32,7 @@ dependencies = [
 name = "alma-executor"
 version = "0.1.0"
 dependencies = [
+ "alma-memory",
  "async-stream",
  "axum 0.8.8",
  "futures",

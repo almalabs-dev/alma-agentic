@@ -12,6 +12,8 @@ use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 use tracing_subscriber::EnvFilter;
 
+use alma_memory::AlmaMemory;
+
 use crate::{adapter::RigOpenRouterAdapter, service::AlmaAgent};
 
 #[tokio::main]
@@ -25,7 +27,8 @@ async fn main() {
 
     let adapter = RigOpenRouterAdapter::from_config(&cfg);
     let agent = Arc::new(AlmaAgent::new(adapter));
-    let state = Arc::new(state::AppState::new(agent, cfg));
+    let memory = AlmaMemory::new(&cfg.qdrant_url, &cfg.memory_collection);
+    let state = Arc::new(state::AppState::new(agent, memory, cfg));
 
     let app = Router::new()
         .route("/health", get(routes::health::health))
