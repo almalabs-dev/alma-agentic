@@ -12,6 +12,8 @@ use std::sync::Arc;
 use tower_http::cors::CorsLayer;
 use tracing_subscriber::EnvFilter;
 
+use crate::{adapter::RigOpenRouterAdapter, service::AlmaAgent};
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt()
@@ -21,7 +23,9 @@ async fn main() {
     let cfg = config::Config::from_env();
     let port = cfg.port;
 
-    let state = Arc::new(state::AppState::new(cfg));
+    let adapter = RigOpenRouterAdapter::from_config(&cfg);
+    let agent = Arc::new(AlmaAgent::new(adapter));
+    let state = Arc::new(state::AppState::new(agent, cfg));
 
     let app = Router::new()
         .route("/health", get(routes::health::health))

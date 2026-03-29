@@ -40,7 +40,7 @@ impl RigOpenRouterAdapter {
         self.agent
             .prompt(message)
             .await
-            .map_err(|e| AgentError(e.to_string()))
+            .map_err(|e| AgentError::new(e.to_string()))
     }
 
     pub async fn chat(
@@ -59,7 +59,7 @@ impl RigOpenRouterAdapter {
         self.agent
             .chat(message, rig_history)
             .await
-            .map_err(|e| AgentError(e.to_string()))
+            .map_err(|e| AgentError::new(e.to_string()))
     }
 
     pub fn stream(&self, message: String) -> Pin<Box<dyn Stream<Item = AgentEvent> + Send>> {
@@ -82,7 +82,7 @@ impl RigOpenRouterAdapter {
                     Ok(_) => {}
 
                     Err(e) => {
-                        yield AgentEvent::Error(e.to_string());
+                        yield AgentEvent::Error(AgentError::new(e.to_string()));
                         return;
                     }
                 }

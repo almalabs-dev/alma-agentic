@@ -24,14 +24,15 @@ alma-agentic is the orchestration layer of Alma Labs' autonomous software factor
 
 ```
 alma-agentic/
-  rig/
-    rig-core/          # Core: providers, completion, streaming, embeddings, tools
-    rig-derive/        # Proc macros: #[derive(Tool)], #[derive(Embed)]
-  rig-integrations/
-    rig-qdrant/        # Qdrant vector store integration
+  vendor/
+    rig-core/          # Rig base retained for providers, tools, embeddings, streaming, MCP, telemetry
+    rig-derive/        # Rig proc macros retained while Alma closes its own API boundary
+    rig-qdrant/        # Qdrant integration retained as inherited infrastructure
+  crates/
+    alma-executor/     # Alma-owned HTTP executor and the first Alma API boundary
 ```
 
-> Internal crate names will migrate to `alma-*` namespace in Phase 2.
+> Phase 2 keeps Rig as the base, but new Alma crates depend on Alma-owned types and internal adapters instead of exposing `rig::*` directly.
 
 ## Providers
 

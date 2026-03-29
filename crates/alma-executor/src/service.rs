@@ -8,11 +8,13 @@ use crate::adapter::RigOpenRouterAdapter;
 // Alma-typed message model
 // ---------------------------------------------------------------------------
 
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AlmaMessage {
     pub role: AlmaRole,
     pub content: String,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AlmaRole {
     User,
     Assistant,
@@ -22,24 +24,33 @@ pub enum AlmaRole {
 // Streaming event type
 // ---------------------------------------------------------------------------
 
+#[derive(Debug)]
 pub enum AgentEvent {
     Text(String),
     Done,
-    Error(String),
+    Error(AgentError),
 }
 
 // ---------------------------------------------------------------------------
 // Error type
 // ---------------------------------------------------------------------------
 
-#[derive(Debug)]
-pub struct AgentError(pub String);
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AgentError(String);
+
+impl AgentError {
+    pub fn new(message: impl Into<String>) -> Self {
+        Self(message.into())
+    }
+}
 
 impl std::fmt::Display for AgentError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str(&self.0)
     }
 }
+
+impl std::error::Error for AgentError {}
 
 // ---------------------------------------------------------------------------
 // AlmaAgent — the Alma-facing agent.

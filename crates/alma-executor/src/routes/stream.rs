@@ -25,13 +25,11 @@ pub async fn stream(
 
     let sse_stream = event_stream.map(|event| {
         Ok(match event {
-            AgentEvent::Text(text) => {
-                Event::default().data(json!({ "text": text }).to_string())
-            }
+            AgentEvent::Text(text) => Event::default().data(json!({ "text": text }).to_string()),
             AgentEvent::Done => Event::default().data("[DONE]"),
-            AgentEvent::Error(e) => Event::default()
+            AgentEvent::Error(error) => Event::default()
                 .event("error")
-                .data(json!({ "error": e }).to_string()),
+                .data(json!({ "error": error.to_string() }).to_string()),
         })
     });
 

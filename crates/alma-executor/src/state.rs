@@ -1,16 +1,15 @@
-use crate::adapter::RigOpenRouterAdapter;
 use crate::config::Config;
 use crate::service::AlmaAgent;
+use std::sync::Arc;
 
 pub struct AppState {
-    pub agent: AlmaAgent,
+    pub agent: Arc<AlmaAgent>,
+    #[allow(dead_code)] // config used in later phases
+    pub config: Config,
 }
 
 impl AppState {
-    pub fn new(cfg: Config) -> Self {
-        let adapter = RigOpenRouterAdapter::from_config(&cfg);
-        Self {
-            agent: AlmaAgent::new(adapter),
-        }
+    pub fn new(agent: Arc<AlmaAgent>, config: Config) -> Self {
+        Self { agent, config }
     }
 }
