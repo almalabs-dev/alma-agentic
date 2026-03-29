@@ -1,5 +1,7 @@
+mod adapter;
 mod config;
 mod routes;
+mod service;
 mod state;
 
 use axum::{

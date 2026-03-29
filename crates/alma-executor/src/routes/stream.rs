@@ -5,15 +5,11 @@ use axum::{
     response::sse::{Event, Sse},
 };
 use futures::StreamExt;
-use rig::{
-    agent::{MultiTurnStreamItem, StreamingError},
-    providers::openrouter::streaming::StreamingCompletionResponse,
-    streaming::{StreamedAssistantContent, StreamingPrompt},
-};
 use serde::Deserialize;
 use serde_json::json;
 use std::{convert::Infallible, sync::Arc};
 
+use crate::service::AgentEvent;
 use crate::state::AppState;
 
 #[derive(Deserialize)]
@@ -21,35 +17,22 @@ pub struct StreamRequest {
     pub message: String,
 }
 
-type StreamItem = Result<MultiTurnStreamItem<StreamingCompletionResponse>, StreamingError>;
-
 pub async fn stream(
     State(state): State<Arc<AppState>>,
     Json(req): Json<StreamRequest>,
 ) -> Result<Sse<impl futures::Stream<Item = Result<Event, Infallible>>>, (StatusCode, String)> {
-    // stream_prompt().await returns the stream directly (not a Result)
-    let raw_stream = state
-        .agent
-        .stream_prompt(req.message.as_str())
-        .await;
+    let event_stream = state.agent.stream(req.message);
 
-    let sse_stream = raw_stream.filter_map(|item: StreamItem| async move {
-        match item {
-            Ok(MultiTurnStreamItem::StreamAssistantItem(StreamedAssistantContent::Text(
-                text,
-            ))) => {
-                let data = json!({ "text": text.text }).to_string();
-                Some(Ok(Event::default().data(data)))
+    let sse_stream = event_stream.map(|event| {
+        Ok(match event {
+            AgentEvent::Text(text) => {
+                Event::default().data(json!({ "text": text }).to_string())
             }
-            Ok(MultiTurnStreamItem::FinalResponse(_)) => {
-                Some(Ok(Event::default().data("[DONE]")))
-            }
-            Ok(_) => None,
-            Err(e) => {
-                let data = json!({ "error": e.to_string() }).to_string();
-                Some(Ok(Event::default().event("error").data(data)))
-            }
-        }
+            AgentEvent::Done => Event::default().data("[DONE]"),
+            AgentEvent::Error(e) => Event::default()
+                .event("error")
+                .data(json!({ "error": e }).to_string()),
+        })
     });
 
     Ok(Sse::new(sse_stream))

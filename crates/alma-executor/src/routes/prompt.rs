@@ -1,9 +1,4 @@
-use axum::{
-    Json,
-    extract::State,
-    http::StatusCode,
-};
-use rig::completion::Prompt;
+use axum::{Json, extract::State, http::StatusCode};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -25,7 +20,7 @@ pub async fn prompt(
 ) -> Result<Json<PromptResponse>, (StatusCode, String)> {
     let response = state
         .agent
-        .prompt(req.message.as_str())
+        .prompt(&req.message)
         .await
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 

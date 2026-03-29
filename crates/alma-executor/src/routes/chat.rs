@@ -1,12 +1,8 @@
-use axum::{
-    Json,
-    extract::State,
-    http::StatusCode,
-};
-use rig::completion::{Chat, Message};
+use axum::{Json, extract::State, http::StatusCode};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
+use crate::service::{AlmaMessage, AlmaRole};
 use crate::state::AppState;
 
 #[derive(Deserialize)]
@@ -31,18 +27,21 @@ pub async fn chat(
     State(state): State<Arc<AppState>>,
     Json(req): Json<ChatRequest>,
 ) -> Result<Json<ChatResponse>, (StatusCode, String)> {
-    let history: Vec<Message> = req
+    let history: Vec<AlmaMessage> = req
         .history
         .into_iter()
-        .map(|entry| match entry.role.as_str() {
-            "assistant" => Message::assistant(entry.content),
-            _ => Message::user(entry.content),
+        .map(|entry| AlmaMessage {
+            role: match entry.role.as_str() {
+                "assistant" => AlmaRole::Assistant,
+                _ => AlmaRole::User,
+            },
+            content: entry.content,
         })
         .collect();
 
     let response = state
         .agent
-        .chat(req.message.as_str(), history)
+        .chat(&req.message, history)
         .await
         .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
