@@ -94,7 +94,7 @@ impl QdrantMemoryAdapter {
             None => return Ok(None),
         };
 
-        // Deserialize through serde_json — same pattern used by rig-qdrant.
+        // Deserialize payload through serde_json.
         let value = serde_json::to_value(point.payload)
             .map_err(|e| MemoryError::backend(e.to_string()))?;
 

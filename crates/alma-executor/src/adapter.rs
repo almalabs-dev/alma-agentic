@@ -1,6 +1,6 @@
-/// RigOpenRouterAdapter — the only file in alma-executor that imports rig::*.
+/// OpenRouterAdapter — the only file in alma-executor that imports rig::*.
 ///
-/// All rig types, traits, and provider details are confined here.
+/// All provider types, traits, and streaming details are confined here.
 /// The rest of the crate depends only on crate::service::{AlmaMessage, AlmaRole,
 /// AgentEvent, AgentError} and crate::service::AlmaAgent.
 use std::pin::Pin;
@@ -22,11 +22,11 @@ use crate::service::{AgentError, AgentEvent, AlmaMessage, AlmaRole};
 // Adapter
 // ---------------------------------------------------------------------------
 
-pub struct RigOpenRouterAdapter {
+pub struct OpenRouterAdapter {
     agent: rig::agent::Agent<openrouter::CompletionModel>,
 }
 
-impl RigOpenRouterAdapter {
+impl OpenRouterAdapter {
     pub fn from_config(cfg: &Config) -> Self {
         let client = openrouter::Client::from_env();
         let agent = client

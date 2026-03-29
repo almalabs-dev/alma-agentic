@@ -7,7 +7,6 @@ an open-source Rust library for building LLM-powered applications.
 
 **Original authors:** Playgrounds Analytics Inc.
 **License:** MIT
-**Fork base commit:** See git history for the exact divergence point.
 
 The original MIT license and copyright notice are preserved in [LICENSE](LICENSE).
 

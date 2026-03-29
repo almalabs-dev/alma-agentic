@@ -2,7 +2,7 @@ use std::pin::Pin;
 
 use futures::Stream;
 
-use crate::adapter::RigOpenRouterAdapter;
+use crate::adapter::OpenRouterAdapter;
 
 // ---------------------------------------------------------------------------
 // Alma-typed message model
@@ -54,16 +54,16 @@ impl std::error::Error for AgentError {}
 
 // ---------------------------------------------------------------------------
 // AlmaAgent — the Alma-facing agent.
-// Routes depend only on this struct; they never see rig::*.
-// All Rig internals live in adapter.rs.
+// Routes depend only on this struct; they never see provider types.
+// All provider internals live in adapter.rs.
 // ---------------------------------------------------------------------------
 
 pub struct AlmaAgent {
-    inner: RigOpenRouterAdapter,
+    inner: OpenRouterAdapter,
 }
 
 impl AlmaAgent {
-    pub fn new(inner: RigOpenRouterAdapter) -> Self {
+    pub fn new(inner: OpenRouterAdapter) -> Self {
         Self { inner }
     }
 

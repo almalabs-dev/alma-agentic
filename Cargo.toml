@@ -1,11 +1,11 @@
 [workspace]
 resolver = "3"
 members = [
-    # Vendor — infraestructura heredada de Rig (fork congelado)
+    # Vendor — provider infrastructure
     "vendor/rig-core",
     "vendor/rig-derive",
     "vendor/rig-qdrant",
-    # Crates — código propio Alma Labs
+    # Alma crates
     "crates/alma-executor",
     "crates/alma-memory",
 ]

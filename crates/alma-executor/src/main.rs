@@ -14,7 +14,7 @@ use tracing_subscriber::EnvFilter;
 
 use alma_memory::AlmaMemory;
 
-use crate::{adapter::RigOpenRouterAdapter, service::AlmaAgent};
+use crate::{adapter::OpenRouterAdapter, service::AlmaAgent};
 
 #[tokio::main]
 async fn main() {
@@ -25,7 +25,7 @@ async fn main() {
     let cfg = config::Config::from_env();
     let port = cfg.port;
 
-    let adapter = RigOpenRouterAdapter::from_config(&cfg);
+    let adapter = OpenRouterAdapter::from_config(&cfg);
     let agent = Arc::new(AlmaAgent::new(adapter));
     let memory = AlmaMemory::new(&cfg.qdrant_url, &cfg.memory_collection);
     let state = Arc::new(state::AppState::new(agent, memory, cfg));
