@@ -4,7 +4,6 @@ members = [
     # Vendor — provider infrastructure
     "vendor/rig-core",
     "vendor/rig-derive",
-    "vendor/rig-qdrant",
     # Alma crates
     "crates/alma-executor",
     "crates/alma-memory",
